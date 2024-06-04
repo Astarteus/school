@@ -1,0 +1,24 @@
+Alessandro Cerniglia
+
+Il capolavoro che ho scelto è una macchina controllata da remoto.  
+Video allegato: https://streamable.com/o2bk41
+
+La macchina è controllata da un Arduino Mega 2560, un microcontrollore creato da Arduino per favorire certi progetti di elettronica che si affiancano alla programmazione. 
+Ne segue che per poter usare Arduino bisogna avere delle conoscenze anche in ambito informatico, conoscenze con cui io iniziai a familiarizzare anni fa con l’apprendimento del linguaggio di programmazione “LUA”.
+Ad oggi esiste una grande varietà di linguaggi di programmazione e, sebbene ognuno di essi abbia una propria forma che lo caratterizza, la struttura rimane più o meno la stessa. 
+Ciò mi ha permesso di apprendere facilmente altri linguaggi di programmazione come Python e JavaScript oltre a linguaggi di markup che vengono usati per sviluppare il design dei siti web (es. HTML, CSS).
+Per quanto riguarda ogni progetto sviluppato mediante Arduino è invece necessaria una conoscenza del “C”, un altro linguaggio di programmazione che si piazza tra quelli più conosciuti (e in parte usati) oggigiorno nonostante risalga a decenni fa. 
+
+Il primo passo consiste dunque nel setup del suddetto microcontrollore grazie al quale si può successivamente provare il funzionamento delle ruote tramite un Motor Driver (L298N), ovvero un dispositivo che fa da ponte tra il microcontrollore e i motori (le ruote). 
+Questo perché i motori richiedono un voltaggio maggiore (12V+) rispetto a ciò che Arduino può offrire (5V). Dunque ho dovuto fare affidamento su un’alimentazione esterna fornita da un totale di 4 batterie Li-ion (~3.8V ciascuna) che disposte in serie avrebbero fornito un voltaggio di circa 15V (più che sufficiente). 
+Ho anche aggiunto un interruttore per evitare di scollegare cavi che poi avrei dovuto attaccare nuovamente per ogni prova. 
+L’altro motivo per cui è conveniente l’utilizzo di un Motor Driver consiste nella facilità con cui si possono gestire tutti i motori avendo la possibilità di controllare sia la loro velocità che il loro verso di rotazione. 
+Infine, il ricetrasmettitore (nRF24L01) permette una comunicazione stabile tra la macchina e il “Controller”, termine che uso per definire ciò che invia l’input da un ricetrasmettitore ad un altro. 
+
+Il Controller è composto da un Arduino Nano (alimentato da un computer e definito così per la sua grandezza rispetto ad Arduino Uno), un ricetrasmettitore, un potenziometro e un joystick. 
+In particolare Arduino Nano è la mente del Controller e si occupa di inviare segnali alla macchina proprio grazie ai due ricetrasmettitori. L’input inviato è una stringa di tipo “n_x” dove la variabile n è un valore basato sulla rotazione del potenziometro.
+Dato che lo stesso ritorna un valore compreso tra 0 e 1023 (perché il voltaggio 5V è interpretato come un numero a 10 bit, per cui il numero massimo che si può formare è 1023) bisogna convertirlo in un valore compreso tra 0 e 255 (valore massimo di un numero a 8 bit, usato dal motor driver). 
+Mentre x è una variabile che contiene una stringa con il nome della direzione in cui andare, inoltre tale stringa è ottenuta attraverso delle condizioni if che verificano le coordinate (x; y) del joystick. 
+L’input è poi ricevuto da un Arduino Mega che grazie alle informazioni ottenute cambia la velocità dei motori, il loro verso e lo status di ogni motore (LOW/HIGH rispettivamente per SPENTO/ACCESO) in base alla direzione scelta. 
+In conclusione ho collegato una ESP32-CAM alla macchina e avvalendomi di una libreria già programmata per quel microcontrollore sono riuscito a far sì che si connettesse all’hotspot del mio telefono in modo tale da avere 2 devices collegati allo stesso Wifi (il computer dove guardare ciò che sta osservando la camera e il microcontrollore).
+
